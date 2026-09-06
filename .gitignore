@@ -1,0 +1,6 @@
+# .gitignore
+/.bundle/
+/coverage/
+/pkg/
+/.ruby-lsp/
+
