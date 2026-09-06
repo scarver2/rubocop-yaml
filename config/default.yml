@@ -4,3 +4,7 @@ AllCops:
     - "**/*.yaml"
     - "**/*.yml"
 
+YAML/Lint/InvalidSyntax:
+  Description: Reports malformed YAML using the parser's best source location.
+  Enabled: true
+  VersionAdded: "0.1"
