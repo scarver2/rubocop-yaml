@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "spec_helper"
+require "pathname"
 require "tempfile"
 
 RSpec.describe RuboCop::Yaml::ProcessedSource do
@@ -16,6 +17,12 @@ RSpec.describe RuboCop::Yaml::ProcessedSource do
       expect(source.buffer.source).to eq("name: value\n")
       expect(source.diagnostics).to be_empty
     end
+  end
+
+  it "accepts Pathname inputs used by RuboCop configuration discovery" do
+    source = RuboCop::ProcessedSource.from_file(Pathname("rubocop-yaml.gemspec"), 3.2)
+
+    expect(source.raw_source).to include("Gem::Specification")
   end
 
   it "delegates Ruby files to RuboCop unchanged" do
