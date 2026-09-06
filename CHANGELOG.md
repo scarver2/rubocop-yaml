@@ -9,6 +9,7 @@
 - Add `YAML/Lint/InvalidSyntax`.
 - Add `YAML/Lint/DuplicateKey`.
 - Add opt-in `YAML/Style/KeyOrdering`.
+- Add opt-in `YAML/Style/KeyGrouping`.
 
 —
 Stan Carver II
