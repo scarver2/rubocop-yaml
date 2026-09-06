@@ -2,5 +2,5 @@
 /.bundle/
 /coverage/
 /pkg/
+/*.gem
 /.ruby-lsp/
-
