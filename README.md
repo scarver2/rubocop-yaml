@@ -20,7 +20,7 @@ RuboCop 1.72 or newer is required because RuboCop YAML uses the current plugin A
 
 ## Development and testing
 
-Run `bundle install`, then `bundle exec rake`. See [the documentation index](docs/README.md) for architecture and contribution notes.
+Run `bin/setup`, then `bin/ci`. Use `bin/rspec` and `bin/rubocop` with passthrough arguments for focused checks. See [the documentation index](docs/README.md) for architecture and contribution notes.
 
 ## Project layout
 
@@ -39,4 +39,3 @@ Source: [github.com/scarver2/rubocop-yaml](https://github.com/scarver2/rubocop-y
 Stan Carver II
 Made in Texas 🤠
 https://stancarver.com
-

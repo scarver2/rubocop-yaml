@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# bin/ci
+
+source "$(dirname "$0")/_lib.sh"
+
+"$BIN_DIR/rspec"
+"$BIN_DIR/rubocop" --no-parallel
+run_bundle gem build rubocop-yaml.gemspec
+

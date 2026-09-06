@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# bin/setup
+
+source "$(dirname "$0")/_lib.sh"
+
+PATH="$(dirname "$MISE_BIN"):$PATH" "$MISE_BIN" install
+PATH="$(dirname "$MISE_BIN"):$PATH" "$MISE_BIN" exec -- bundle install
+
