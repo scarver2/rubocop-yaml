@@ -29,6 +29,7 @@ module RuboCop
         attr_reader location: Location
         attr_reader anchor: String?
         attr_reader tag: String?
+        attr_reader plain: bool?
       end
 
       def parse: (String source, ?path: String) -> Result
