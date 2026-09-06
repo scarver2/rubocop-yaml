@@ -1,0 +1,4 @@
+# .mise.toml
+[tools]
+ruby = "4.0.6"
+
