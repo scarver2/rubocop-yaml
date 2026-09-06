@@ -4,6 +4,8 @@
 require "lint_roller"
 require "pathname"
 
+require_relative "processed_source"
+
 module RuboCop
   module Yaml
     class Plugin < LintRoller::Plugin
