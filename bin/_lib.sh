@@ -9,12 +9,10 @@ MISE_BIN="${MISE_BIN:-$HOME/.local/bin/mise}"
 
 cd "$ROOT_DIR"
 
-if [[ ! -x "$MISE_BIN" ]]; then
-  echo "mise was not found at $MISE_BIN; set MISE_BIN to its executable path." >&2
-  exit 127
-fi
-
 run_bundle() {
-  PATH="$(dirname "$MISE_BIN"):$PATH" "$MISE_BIN" exec -- bundle exec "$@"
+  if [[ -x "$MISE_BIN" ]]; then
+    PATH="$(dirname "$MISE_BIN"):$PATH" "$MISE_BIN" exec -- bundle exec "$@"
+  else
+    bundle exec "$@"
+  fi
 }
-
