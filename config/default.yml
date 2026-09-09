@@ -1,0 +1,6 @@
+# config/default.yml
+AllCops:
+  Include:
+    - "**/*.yaml"
+    - "**/*.yml"
+
