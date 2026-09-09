@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# bin/rubocop
+
+source "$(dirname "$0")/_lib.sh"
+run_bundle rubocop "$@"
+
