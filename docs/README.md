@@ -10,7 +10,10 @@
 - Schema autodetection recognizes Compose files and `.github/workflows/*.yml`. Explicit mappings take precedence, `AutoDetect: false` disables the registry, and `Debug: true` prints the selected pinned schema identity.
 - `YAML/Rails/DatabaseEnvironmentConsistency` statically checks `config/database.yml` for required environments and keys, including keys inherited through anchors and merge aliases. Configure `RequiredEnvironments`, `RequiredKeys`, or `AllowMergeKeys` to avoid false positives in nonstandard deployments. ERB is preserved as scalar text and is never executed.
 
-Development and testing instructions live in the project [README](../README.md). More focused documents will accompany the relevant features.
+## Further reading
+
+- Development and testing instructions live in the project [README](../README.md).
+- [Releasing](releasing.md) documents package verification, trusted publishing, and rollback boundaries.
 
 —
 Stan Carver II

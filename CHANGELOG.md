@@ -3,6 +3,8 @@
 
 ## Unreleased
 
+## 0.1.0 - 2026-09-13
+
 - Establish the RuboCop plugin foundation.
 - Add standardized local development commands and CI.
 - Add a safe YAML parser abstraction with immutable nodes and source locations.
