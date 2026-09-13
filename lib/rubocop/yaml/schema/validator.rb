@@ -13,19 +13,22 @@ module RuboCop
 
         class ConfigurationError < StandardError; end
 
-        def initialize(parser: Parser.new)
+        attr_reader :selected_schema
+
+        def initialize(parser: Parser.new, registry: Registry.new)
           @parser = parser
+          @registry = registry
           @schemas = {}
         end
 
-        def validate(source:, path:, schemas:, root: Dir.pwd)
-          schema_path = schema_for(path, schemas, root)
+        def validate(source:, path:, schemas:, root: Dir.pwd, autodetect: true) # rubocop:disable Metrics/AbcSize
+          schema_path = schema_for(path, schemas, root, autodetect)
           return [] unless schema_path
 
           parsed = parser.parse(source, path: path)
           return [] unless parsed.success?
 
-          data = Psych.safe_load(source, aliases: true)
+          data = to_data(parsed.stream.children.first.children.first)
           schemer(schema_path).validate(data).map { |error| finding(error, parsed.stream) }
         rescue JSON::ParserError, JSONSchemer::InvalidFileURI, JSONSchemer::UnknownRef, Psych::Exception => e
           raise ConfigurationError, "#{schema_path}: #{e.message}"
@@ -33,14 +36,27 @@ module RuboCop
 
         private
 
-        attr_reader :parser, :schemas
+        attr_reader :parser, :registry, :schemas
 
-        def schema_for(path, mappings, root)
+        def schema_for(path, mappings, root, autodetect)
           relative = Pathname(path).absolute? ? Pathname(path).relative_path_from(Pathname(root)).to_s : path
           match = mappings.find { |glob, _schema| File.fnmatch?(glob, relative, File::FNM_PATHNAME | File::FNM_EXTGLOB) }
-          File.expand_path(match.last, root) if match
+          return select_explicit(File.expand_path(match.last, root)) if match
+          return unless autodetect
+
+          select_registry(registry.resolve(relative))
         rescue ArgumentError
           nil
+        end
+
+        def select_explicit(path)
+          @selected_schema = Registry::Entry.new(name: "explicit", version: "project", path: path)
+          path
+        end
+
+        def select_registry(entry)
+          @selected_schema = entry
+          entry&.path
         end
 
         def schemer(path)
@@ -84,6 +100,30 @@ module RuboCop
 
         def decode_pointer(pointer)
           pointer.split("/").drop(1).map { |part| part.gsub("~1", "/").gsub("~0", "~") }
+        end
+
+        def to_data(node)
+          case node.type
+          when :mapping
+            node.children.each_slice(2).to_h { |key, value| [key.value, to_data(value)] }
+          when :sequence
+            node.children.map { |child| to_data(child) }
+          when :scalar
+            scalar_value(node)
+          else
+            node.value
+          end
+        end
+
+        def scalar_value(node) # rubocop:disable Metrics/AbcSize
+          return node.value unless node.plain
+          return nil if %w[null ~].include?(node.value.downcase)
+          return true if node.value.downcase == "true"
+          return false if node.value.downcase == "false"
+          return node.value.to_i if node.value.match?(/\A[-+]?\d+\z/)
+          return node.value.to_f if node.value.match?(/\A[-+]?(?:\d+\.\d*|\d*\.\d+)(?:e[-+]?\d+)?\z/i)
+
+          node.value
         end
       end
     end
