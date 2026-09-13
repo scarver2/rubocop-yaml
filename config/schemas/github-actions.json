@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rubocop-yaml.dev/schemas/github-actions-schema-store-2026-08",
+  "type": "object",
+  "required": ["on", "jobs"],
+  "properties": {
+    "name": { "type": "string" },
+    "run-name": { "type": "string" },
+    "on": { "type": ["string", "array", "object"] },
+    "permissions": { "type": ["string", "object"] },
+    "env": { "type": "object" },
+    "defaults": { "type": "object" },
+    "concurrency": { "type": ["string", "object"] },
+    "jobs": { "type": "object", "minProperties": 1 }
+  },
+  "additionalProperties": false
+}

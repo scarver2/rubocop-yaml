@@ -15,15 +15,16 @@ module RuboCop
       end
 
       class Node
-        attr_reader :type, :value, :children, :location, :anchor, :tag
+        attr_reader :type, :value, :children, :location, :anchor, :tag, :plain
 
-        def initialize(type:, value:, children:, location:, anchor:, tag:) # rubocop:disable Metrics/ParameterLists
+        def initialize(type:, value:, children:, location:, anchor:, tag:, plain:) # rubocop:disable Metrics/ParameterLists
           @type = type
           @value = value
           @children = children.freeze
           @location = location
           @anchor = anchor
           @tag = tag
+          @plain = plain
           freeze
         end
       end
@@ -45,7 +46,8 @@ module RuboCop
           children: Array(node.children).map { |child| convert(child) },
           location: location(node),
           anchor: node.respond_to?(:anchor) ? node.anchor : nil,
-          tag: node.respond_to?(:tag) ? node.tag : nil
+          tag: node.respond_to?(:tag) ? node.tag : nil,
+          plain: node.respond_to?(:plain) ? node.plain : nil
         )
       end
 

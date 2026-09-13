@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rubocop-yaml.dev/schemas/compose-spec-2026-08",
+  "type": "object",
+  "required": ["services"],
+  "properties": {
+    "name": { "type": "string" },
+    "services": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "image": { "type": "string" },
+          "build": { "type": ["string", "object"] },
+          "command": { "type": ["string", "array"] },
+          "environment": { "type": ["object", "array"] },
+          "ports": { "type": "array" },
+          "volumes": { "type": "array" },
+          "depends_on": { "type": ["object", "array"] }
+        }
+      }
+    },
+    "networks": { "type": "object" },
+    "volumes": { "type": "object" },
+    "configs": { "type": "object" },
+    "secrets": { "type": "object" }
+  },
+  "additionalProperties": false
+}

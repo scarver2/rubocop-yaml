@@ -37,5 +37,7 @@ YAML/Style/KeyGrouping:
 YAML/Schema/Validation:
   Description: Validates YAML documents against configured local JSON Schemas.
   Enabled: false
+  AutoDetect: true
+  Debug: false
   Schemas: {}
   VersionAdded: "0.1"
