@@ -7,7 +7,7 @@ Gem::Specification.new do |spec|
   spec.name = "rubocop-yaml"
   spec.version = RuboCop::Yaml::VERSION
   spec.authors = ["Stan Carver II"]
-  spec.email = ["stan@stancarver.com"]
+  spec.email = ["howdy@stancarver.com"]
   spec.summary = "YAML analysis with native RuboCop offenses"
   spec.description = "A RuboCop plugin for deterministic YAML linting, style, schema, and Rails configuration checks."
   spec.homepage = "https://github.com/scarver2/rubocop-yaml"
@@ -25,5 +25,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rake", "~> 13.2"
   spec.add_development_dependency "rspec", "~> 3.13"
-  spec.add_development_dependency "simplecov", "~> 0.22"
+  spec.add_development_dependency "simplecov", "~> 1.2.0"
 end
