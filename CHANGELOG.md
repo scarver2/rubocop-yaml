@@ -12,6 +12,7 @@
 - Add opt-in `YAML/Style/KeyGrouping`.
 - Add opt-in local JSON Schema validation.
 - Add deterministic Compose and GitHub Actions schema autodetection.
+- Add Rails database environment consistency checks.
 
 —
 Stan Carver II

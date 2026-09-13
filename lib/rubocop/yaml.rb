@@ -11,6 +11,7 @@ require_relative "yaml/schema/validator"
 
 require_relative "cop/yaml/lint/duplicate_key"
 require_relative "cop/yaml/lint/invalid_syntax"
+require_relative "cop/yaml/rails/database_environment_consistency"
 require_relative "cop/yaml/schema/validation"
 require_relative "cop/yaml/style/key_grouping"
 require_relative "cop/yaml/style/key_ordering"

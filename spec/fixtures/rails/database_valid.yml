@@ -1,0 +1,16 @@
+# spec/fixtures/rails/database_valid.yml
+default: &default
+  adapter: postgresql
+  database: app
+  pool: 5
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  database: app_test
+
+production:
+  <<: *default
+  database: <%= ENV.fetch("DATABASE_NAME") %>
