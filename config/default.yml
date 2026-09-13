@@ -8,3 +8,8 @@ YAML/Lint/InvalidSyntax:
   Description: Reports malformed YAML using the parser's best source location.
   Enabled: true
   VersionAdded: "0.1"
+
+YAML/Lint/DuplicateKey:
+  Description: Reports repeated scalar keys within the same YAML mapping.
+  Enabled: true
+  VersionAdded: "0.1"
