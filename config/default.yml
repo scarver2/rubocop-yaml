@@ -23,3 +23,13 @@ YAML/Style/KeyOrdering:
     - configured
   Keys: []
   VersionAdded: "0.1"
+
+YAML/Style/KeyGrouping:
+  Description: Groups semantically related YAML keys in a configured order.
+  Enabled: false
+  Groups: []
+  Scopes:
+    - "*"
+  UnknownKeys: last
+  RequireBlankLines: false
+  VersionAdded: "0.1"
