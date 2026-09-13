@@ -41,3 +41,19 @@ YAML/Schema/Validation:
   Debug: false
   Schemas: {}
   VersionAdded: "0.1"
+
+YAML/Rails/DatabaseEnvironmentConsistency:
+  Description: Requires consistent environments and keys in Rails database configuration.
+  Enabled: true
+  Include:
+    - "**/config/database.yml"
+    - "**/config/database.yaml"
+  RequiredEnvironments:
+    - development
+    - test
+    - production
+  RequiredKeys:
+    - adapter
+    - database
+  AllowMergeKeys: true
+  VersionAdded: "0.1"

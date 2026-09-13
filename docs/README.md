@@ -8,6 +8,7 @@
 - `YAML/Style/KeyGrouping` accepts named key groups, dot-separated nested scopes, `last` or `ignore` handling for unknown keys, and optional blank-line separation. It does not autocorrect.
 - `YAML/Schema/Validation` maps project-relative file globs to local JSON Schema paths. Schemas are cached per run, local references are supported, and remote references are rejected by the validator's default resolver.
 - Schema autodetection recognizes Compose files and `.github/workflows/*.yml`. Explicit mappings take precedence, `AutoDetect: false` disables the registry, and `Debug: true` prints the selected pinned schema identity.
+- `YAML/Rails/DatabaseEnvironmentConsistency` statically checks `config/database.yml` for required environments and keys, including keys inherited through anchors and merge aliases. Configure `RequiredEnvironments`, `RequiredKeys`, or `AllowMergeKeys` to avoid false positives in nonstandard deployments. ERB is preserved as scalar text and is never executed.
 
 Development and testing instructions live in the project [README](../README.md). More focused documents will accompany the relevant features.
 

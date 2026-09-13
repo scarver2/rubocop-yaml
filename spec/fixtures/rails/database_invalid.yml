@@ -1,0 +1,11 @@
+# spec/fixtures/rails/database_invalid.yml
+development:
+  adapter: postgresql
+  database: app
+
+test:
+  adapter: postgresql
+
+staging:
+  adapter: postgresql
+  database: app_staging
