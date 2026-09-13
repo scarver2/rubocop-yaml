@@ -13,3 +13,13 @@ YAML/Lint/DuplicateKey:
   Description: Reports repeated scalar keys within the same YAML mapping.
   Enabled: true
   VersionAdded: "0.1"
+
+YAML/Style/KeyOrdering:
+  Description: Enforces alphabetical or explicitly configured mapping-key order.
+  Enabled: false
+  EnforcedStyle: alphabetical
+  SupportedStyles:
+    - alphabetical
+    - configured
+  Keys: []
+  VersionAdded: "0.1"
