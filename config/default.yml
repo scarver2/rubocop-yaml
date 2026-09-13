@@ -33,3 +33,9 @@ YAML/Style/KeyGrouping:
   UnknownKeys: last
   RequireBlankLines: false
   VersionAdded: "0.1"
+
+YAML/Schema/Validation:
+  Description: Validates YAML documents against configured local JSON Schemas.
+  Enabled: false
+  Schemas: {}
+  VersionAdded: "0.1"

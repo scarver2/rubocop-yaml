@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = spec.homepage
   spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/master/CHANGELOG.md"
 
+  spec.add_dependency "json_schemer", ">= 2.5", "< 3.0"
   spec.add_dependency "lint_roller", "~> 1.1"
   spec.add_dependency "rubocop", ">= 1.72", "< 2.0"
 
