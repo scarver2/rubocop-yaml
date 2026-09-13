@@ -1,0 +1,37 @@
+# sig/rubocop/yaml/parser.rbs
+module RuboCop
+  module Yaml
+    class Parser
+      class Location < Struct[Integer | nil]
+        def line: () -> Integer
+        def column: () -> Integer
+        def end_line: () -> Integer
+        def end_column: () -> Integer
+      end
+
+      class Diagnostic < Struct[Integer | String | nil]
+        def path: () -> String
+        def line: () -> Integer
+        def column: () -> Integer
+        def message: () -> String
+      end
+
+      class Result < Struct[Node | Diagnostic | nil]
+        def stream: () -> Node?
+        def diagnostic: () -> Diagnostic?
+        def success?: () -> bool
+      end
+
+      class Node
+        attr_reader type: Symbol
+        attr_reader value: String?
+        attr_reader children: Array[Node]
+        attr_reader location: Location
+        attr_reader anchor: String?
+        attr_reader tag: String?
+      end
+
+      def parse: (String source, ?path: String) -> Result
+    end
+  end
+end
