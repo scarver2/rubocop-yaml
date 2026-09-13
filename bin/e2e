@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# bin/e2e
+
+source "$(dirname "$0")/_lib.sh"
+
+"$BIN_DIR/package"
+
+version="$(run_bundle ruby -Ilib -e 'require "rubocop/yaml/version"; print RuboCop::Yaml::VERSION')"
+gem_file="$ROOT_DIR/pkg/rubocop-yaml-$version.gem"
+scratch_dir="$(mktemp -d "${TMPDIR:-/tmp}/rubocop-yaml-e2e.XXXXXX")"
+gem_home="$scratch_dir/gems"
+fixture_dir="$scratch_dir/rails-app"
+
+cleanup() {
+  [[ -n "$scratch_dir" && -d "$scratch_dir" ]] && rm -rf "$scratch_dir"
+}
+trap cleanup EXIT
+
+mkdir -p "$fixture_dir/config"
+cat > "$fixture_dir/.rubocop.yml" <<'YAML'
+plugins:
+  - rubocop-yaml
+
+AllCops:
+  NewCops: disable
+
+YAML/Schema/Validation:
+  Enabled: true
+YAML
+cat > "$fixture_dir/config/database.yml" <<'YAML'
+default: &default
+  adapter: sqlite3
+
+development:
+  <<: *default
+  database: storage/development.sqlite3
+
+test:
+  <<: *default
+  database: storage/test.sqlite3
+
+production:
+  <<: *default
+  database: storage/production.sqlite3
+YAML
+cat > "$fixture_dir/compose.yml" <<'YAML'
+services:
+  web:
+    image: busybox
+YAML
+
+GEM_HOME="$gem_home" GEM_PATH="$gem_home" run_mise gem install "$gem_file" --no-document
+(
+  cd "$fixture_dir"
+  GEM_HOME="$gem_home" GEM_PATH="$gem_home" "$gem_home/bin/rubocop" --config .rubocop.yml config/database.yml compose.yml
+  GEM_HOME="$gem_home" GEM_PATH="$gem_home" "$gem_home/bin/rubocop" --config .rubocop.yml --show-cops YAML/Rails/DatabaseEnvironmentConsistency |
+    grep -q "YAML/Rails/DatabaseEnvironmentConsistency"
+)
+
+printf 'Verified packaged plugin discovery in an isolated Rails fixture.\n'
