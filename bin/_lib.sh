@@ -9,10 +9,14 @@ MISE_BIN="${MISE_BIN:-$HOME/.local/bin/mise}"
 
 cd "$ROOT_DIR"
 
-run_bundle() {
+run_mise() {
   if [[ -x "$MISE_BIN" ]]; then
-    PATH="$(dirname "$MISE_BIN"):$PATH" "$MISE_BIN" exec -- bundle exec "$@"
+    PATH="$(dirname "$MISE_BIN"):$PATH" "$MISE_BIN" exec -- "$@"
   else
-    bundle exec "$@"
+    "$@"
   fi
+}
+
+run_bundle() {
+  run_mise bundle exec "$@"
 }

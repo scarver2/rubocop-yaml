@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# bin/package
+
+source "$(dirname "$0")/_lib.sh"
+
+mkdir -p "$ROOT_DIR/pkg"
+version="$(run_bundle ruby -Ilib -e 'require "rubocop/yaml/version"; print RuboCop::Yaml::VERSION')"
+gem_file="$ROOT_DIR/pkg/rubocop-yaml-$version.gem"
+
+run_bundle gem build rubocop-yaml.gemspec --output "$gem_file"
+run_bundle ruby -rrubygems/package -e '
+  required = %w[
+    config/default.yml
+    config/schemas/compose.json
+    config/schemas/github-actions.json
+    lib/rubocop/yaml.rb
+    sig/rubocop/yaml/parser.rbs
+  ]
+  files = Gem::Package.new(ARGV.fetch(0)).spec.files
+  missing = required - files
+  abort "Packaged gem is missing: #{missing.join(", ")}" unless missing.empty?
+' "$gem_file"
+
+printf 'Verified %s\n' "$gem_file"
