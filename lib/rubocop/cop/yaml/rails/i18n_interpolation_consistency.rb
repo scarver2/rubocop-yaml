@@ -9,7 +9,6 @@ module RuboCop
       module Rails
         class I18nInterpolationConsistency < I18nBase
           Finding = Struct.new(:entry, :locale, :path, :missing, :extra, :message, keyword_init: true)
-          PLACEHOLDER = /(?<!%)%\{([a-zA-Z_]\w*)\}/
 
           def on_new_investigation
             configured_findings.each do |finding|
@@ -25,7 +24,7 @@ module RuboCop
           end
 
           def placeholders(value)
-            value.to_s.scan(PLACEHOLDER).flatten.uniq.sort
+            RuboCop::Yaml::Rails::I18n::Interpolation.placeholders(value)
           end
 
           private
