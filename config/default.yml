@@ -81,3 +81,13 @@ YAML/Rails/I18nInterpolationConsistency:
   IgnoredLocales: []
   IgnoredPaths: []
   VersionAdded: "0.2"
+
+YAML/Rails/I18nDuplicateTranslation:
+  Description: Reports Rails translations defined for one locale and path in multiple files.
+  Enabled: true
+  LocaleFiles:
+    - "config/locales/**/*.yml"
+    - "config/locales/**/*.yaml"
+  ExcludedLocaleFiles: []
+  IgnoredPaths: []
+  VersionAdded: "0.2"
