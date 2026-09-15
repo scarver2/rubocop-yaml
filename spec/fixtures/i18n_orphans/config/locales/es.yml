@@ -1,0 +1,6 @@
+es:
+  users:
+    title: Usuarios
+    stale: Obsoleto
+  regional:
+    greeting: Hola
