@@ -57,3 +57,15 @@ YAML/Rails/DatabaseEnvironmentConsistency:
     - database
   AllowMergeKeys: true
   VersionAdded: "0.1"
+
+YAML/Rails/I18nLocaleConsistency:
+  Description: Reports translation paths missing from non-reference Rails locales.
+  Enabled: true
+  LocaleFiles:
+    - "config/locales/**/*.yml"
+    - "config/locales/**/*.yaml"
+  ReferenceLocale: en
+  Locales: []
+  IgnoredLocales: []
+  IgnoredPaths: []
+  VersionAdded: "0.2"
