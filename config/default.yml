@@ -69,3 +69,15 @@ YAML/Rails/I18nLocaleConsistency:
   IgnoredLocales: []
   IgnoredPaths: []
   VersionAdded: "0.2"
+
+YAML/Rails/I18nInterpolationConsistency:
+  Description: Reports interpolation placeholder contracts that differ across Rails locales.
+  Enabled: true
+  LocaleFiles:
+    - "config/locales/**/*.yml"
+    - "config/locales/**/*.yaml"
+  ReferenceLocale: en
+  Locales: []
+  IgnoredLocales: []
+  IgnoredPaths: []
+  VersionAdded: "0.2"

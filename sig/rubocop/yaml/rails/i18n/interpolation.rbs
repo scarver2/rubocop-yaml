@@ -1,0 +1,12 @@
+module RuboCop
+  module Yaml
+    module Rails
+      module I18n
+        module Interpolation
+          def self.placeholders: (untyped value) -> Array[String]
+          def self.reserved?: (String | Symbol placeholder) -> bool
+        end
+      end
+    end
+  end
+end

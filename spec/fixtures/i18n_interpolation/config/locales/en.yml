@@ -1,0 +1,9 @@
+en:
+  welcome: "Welcome, %{name}; you have %{count} messages"
+  ordered: "%{first} %{second}"
+  repeated: "%{name} and %{name}"
+  escaped: "Progress: 100%%"
+  multiline: |
+    Hello %{name}
+    You have %{count} items.
+  numeric: 42
