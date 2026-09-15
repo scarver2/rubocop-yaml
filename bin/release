@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+# bin/release
+
+source "$(dirname "$0")/_lib.sh"
+
+usage() {
+  cat <<'USAGE'
+Usage: bin/release [--check]
+
+Verify and release the version declared by RuboCop::Yaml::VERSION.
+
+  --check  Run every preflight and release gate without creating or pushing a tag.
+USAGE
+}
+
+check_only=false
+case "${1:-}" in
+  "") ;;
+  --check) check_only=true ;;
+  --help|-h)
+    usage
+    exit 0
+    ;;
+  *)
+    usage >&2
+    exit 2
+    ;;
+esac
+
+[[ $# -le 1 ]] || {
+  usage >&2
+  exit 2
+}
+
+branch="$(git branch --show-current)"
+[[ "$branch" == "master" ]] || {
+  printf 'Release aborted: expected branch master, found %s.\n' "${branch:-detached HEAD}" >&2
+  exit 1
+}
+
+[[ -z "$(git status --porcelain)" ]] || {
+  printf 'Release aborted: the worktree is not clean.\n' >&2
+  exit 1
+}
+
+git fetch origin master
+release_sha="$(git rev-parse HEAD)"
+origin_sha="$(git rev-parse origin/master)"
+[[ "$release_sha" == "$origin_sha" ]] || {
+  printf 'Release aborted: master %s does not match origin/master %s.\n' "$release_sha" "$origin_sha" >&2
+  exit 1
+}
+
+version="$(run_bundle ruby -Ilib -e 'require "rubocop/yaml/version"; print RuboCop::Yaml::VERSION')"
+[[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?(\+[0-9A-Za-z]+([.-][0-9A-Za-z]+)*)?$ ]] || {
+  printf 'Release aborted: invalid semantic version %s.\n' "$version" >&2
+  exit 1
+}
+
+tag="v$version"
+grep -Eq "^## ${version} - [0-9]{4}-[0-9]{2}-[0-9]{2}$" CHANGELOG.md || {
+  printf 'Release aborted: CHANGELOG.md has no dated %s entry.\n' "$version" >&2
+  exit 1
+}
+
+if git show-ref --verify --quiet "refs/tags/$tag"; then
+  printf 'Release aborted: local tag %s already exists.\n' "$tag" >&2
+  exit 1
+fi
+
+if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
+  printf 'Release aborted: remote tag %s already exists.\n' "$tag" >&2
+  exit 1
+fi
+
+"$BIN_DIR/package"
+"$BIN_DIR/ci"
+"$BIN_DIR/e2e"
+
+if [[ "$check_only" == true ]]; then
+  printf 'Release check passed for %s at %s; no tag was created.\n' "$tag" "$release_sha"
+  exit 0
+fi
+
+git tag -s "$tag" "$release_sha" -m "rubocop-yaml $tag"
+
+tag_sha="$(git rev-parse "$tag^{commit}")"
+[[ "$tag_sha" == "$release_sha" ]] || {
+  printf 'Release aborted: %s resolves to %s, expected %s.\n' "$tag" "$tag_sha" "$release_sha" >&2
+  exit 1
+}
+
+git verify-tag "$tag"
+git push origin "refs/tags/$tag:refs/tags/$tag"
+
+printf 'Released %s from %s; GitHub Actions will publish the verified gem.\n' "$tag" "$release_sha"
