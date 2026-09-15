@@ -91,3 +91,16 @@ YAML/Rails/I18nDuplicateTranslation:
   ExcludedLocaleFiles: []
   IgnoredPaths: []
   VersionAdded: "0.2"
+
+YAML/Rails/I18nOrphanTranslation:
+  Description: Reports target-locale translations absent from the reference locale.
+  Enabled: false
+  LocaleFiles:
+    - "config/locales/**/*.yml"
+    - "config/locales/**/*.yaml"
+  ReferenceLocale: en
+  Locales: []
+  IgnoredLocales: []
+  IgnoredPaths: []
+  LocaleIgnoredPaths: {}
+  VersionAdded: "0.2"
