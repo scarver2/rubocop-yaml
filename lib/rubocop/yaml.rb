@@ -1,6 +1,8 @@
 # lib/rubocop/yaml.rb
 # frozen_string_literal: true
 
+require "i18n"
+
 require_relative "yaml/parser"
 require_relative "yaml/processed_source"
 # Plugin registration reads VERSION while the class is defined.

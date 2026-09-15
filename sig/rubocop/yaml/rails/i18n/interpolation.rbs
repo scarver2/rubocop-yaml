@@ -3,9 +3,8 @@ module RuboCop
     module Rails
       module I18n
         module Interpolation
-          PLACEHOLDER: Regexp
-
           def self.placeholders: (untyped value) -> Array[String]
+          def self.reserved?: (String | Symbol placeholder) -> bool
         end
       end
     end

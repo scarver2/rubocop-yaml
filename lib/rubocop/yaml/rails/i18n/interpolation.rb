@@ -6,12 +6,13 @@ module RuboCop
     module Rails
       module I18n
         module Interpolation
-          PLACEHOLDER = /(?<!%)%\{([a-zA-Z_]\w*)\}/
+          def self.placeholders(value)
+            pattern = Regexp.union(::I18n.config.interpolation_patterns)
+            value.to_s.scan(pattern).filter_map { |captures| Array(captures).compact.first }.map(&:to_s).uniq.sort
+          end
 
-          module_function
-
-          def placeholders(value)
-            value.to_s.scan(PLACEHOLDER).flatten.uniq.sort
+          def self.reserved?(placeholder)
+            ::I18n::RESERVED_KEYS.include?(placeholder.to_sym)
           end
         end
       end
