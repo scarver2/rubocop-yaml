@@ -17,13 +17,20 @@ The repository must also have a GitHub Actions environment named `release`. Conf
 
 ## Release checklist
 
-1. Confirm the release commit is on `master` and the worktree is clean.
-2. Confirm `CHANGELOG.md` has a dated entry matching the version.
-3. Run `bin/ci` to execute specs, coverage, RuboCop, RBS validation, and package inspection.
-4. Run `bin/e2e` to install the built gem in an isolated gem home and lint a Rails-shaped fixture.
-5. Create and push the signed release tag, such as `v0.1.0`.
-6. Approve the `release` environment deployment if protection rules require it.
-7. Verify the GitHub Actions release job, the RubyGems version, and the generated GitHub release/tag page.
+Run `bin/release --check` to exercise the complete local release preflight without creating a tag. Run `bin/release` only after that exact release commit has been reviewed and accepted on `master`.
+
+The script enforces this order:
+
+1. Require a clean `master` worktree exactly synchronized with `origin/master`.
+2. Read and validate `RuboCop::Yaml::VERSION` and require a dated matching `CHANGELOG.md` entry.
+3. Refuse to reuse an existing local or remote version tag.
+4. Run `bin/package`, `bin/ci`, and `bin/e2e` in order.
+5. Create a signed `v<VERSION>` tag on the exact verified commit and verify its target and signature.
+6. Push only that tag, allowing the `Release` GitHub Actions workflow to publish through RubyGems trusted publishing and create the GitHub release.
+7. Approve the `release` environment deployment if protection rules require it.
+8. Verify the GitHub Actions release job, the RubyGems version, the generated GitHub release, and installation of the public gem.
+
+`bin/release` never creates a RubyGems API key, changes the version, edits the changelog, moves an existing tag, or uploads a gem directly.
 
 ## Failure and rollback boundaries
 
