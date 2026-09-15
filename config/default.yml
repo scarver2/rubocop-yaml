@@ -104,3 +104,17 @@ YAML/Rails/I18nOrphanTranslation:
   IgnoredPaths: []
   LocaleIgnoredPaths: {}
   VersionAdded: "0.2"
+
+YAML/Rails/I18nPluralizationContract:
+  Description: Validates configured locale-aware Rails I18n pluralization contracts.
+  Enabled: true
+  LocaleFiles:
+    - "config/locales/**/*.yml"
+    - "config/locales/**/*.yaml"
+  RequiredCategories:
+    en:
+      - one
+      - other
+  CountRequiredCategories: {}
+  IgnoredPaths: []
+  VersionAdded: "0.2"

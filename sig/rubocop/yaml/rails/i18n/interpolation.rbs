@@ -1,0 +1,13 @@
+module RuboCop
+  module Yaml
+    module Rails
+      module I18n
+        module Interpolation
+          PLACEHOLDER: Regexp
+
+          def self.placeholders: (untyped value) -> Array[String]
+        end
+      end
+    end
+  end
+end
