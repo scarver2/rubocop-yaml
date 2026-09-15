@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/master/CHANGELOG.md"
   spec.metadata["rubygems_mfa_required"] = "true"
 
+  spec.add_dependency "i18n", ">= 1.14", "< 2.0"
   spec.add_dependency "json_schemer", ">= 2.5", "< 3.0"
   spec.add_dependency "lint_roller", "~> 1.1"
   spec.add_dependency "rubocop", ">= 1.72", "< 2.0"

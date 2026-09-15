@@ -44,4 +44,12 @@ RSpec.describe RuboCop::Cop::YAML::Rails::I18nInterpolationConsistency do
 
     expect(cop.placeholders(value)).to eq(%w[count name])
   end
+
+  it "uses ruby-i18n interpolation patterns and reserved keys" do
+    formatted = "%<amount>.2f %{name|lowercase}"
+
+    expect(cop.placeholders(formatted)).to eq(%w[amount name|lowercase])
+    expect(RuboCop::Yaml::Rails::I18n::Interpolation.reserved?(:scope)).to be(true)
+    expect(RuboCop::Yaml::Rails::I18n::Interpolation.reserved?(:name)).to be(false)
+  end
 end
