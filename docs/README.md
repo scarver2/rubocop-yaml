@@ -13,6 +13,7 @@
 ## Further reading
 
 - Development and testing instructions live in the project [README](../README.md).
+- [Rails I18n analysis architecture](i18n-architecture.md) defines the boundary between source-aware YAML indexing and `ruby-i18n` semantics.
 - [Releasing](releasing.md) documents package verification, trusted publishing, and rollback boundaries.
 
 —
