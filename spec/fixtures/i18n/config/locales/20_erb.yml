@@ -1,0 +1,2 @@
+en:
+  literal: "<%= Kernel.raise('must not execute') %>"

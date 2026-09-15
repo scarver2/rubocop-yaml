@@ -1,0 +1,13 @@
+en:
+  users:
+    welcome: "Hello %{name}"
+    roles:
+      - admin
+      - member
+  shared: &shared
+    title: Shared title
+  copied: *shared
+es:
+  users:
+    welcome: "Hola %{name}"
+fr:
