@@ -25,12 +25,12 @@ The script enforces this order:
 2. Read and validate `RuboCop::Yaml::VERSION` and require a dated matching `CHANGELOG.md` entry.
 3. Refuse to reuse an existing local or remote version tag.
 4. Run `bin/package`, `bin/ci`, and `bin/e2e` in order.
-5. Create a signed `v<VERSION>` tag on the exact verified commit and verify its target and signature.
+5. Create an annotated `v<VERSION>` tag on the exact verified commit and verify its target and tag-object type.
 6. Push only that tag, allowing the `Release` GitHub Actions workflow to publish through RubyGems trusted publishing and create the GitHub release.
 7. Approve the `release` environment deployment if protection rules require it.
 8. Verify the GitHub Actions release job, the RubyGems version, the generated GitHub release, and installation of the public gem.
 
-`bin/release` never creates a RubyGems API key, changes the version, edits the changelog, moves an existing tag, or uploads a gem directly.
+`bin/release` does not require a local GPG secret key. It never creates a RubyGems API key, changes the version, edits the changelog, moves an existing tag, or uploads a gem directly.
 
 ## Failure and rollback boundaries
 

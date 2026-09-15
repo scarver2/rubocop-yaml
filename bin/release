@@ -82,7 +82,7 @@ if [[ "$check_only" == true ]]; then
   exit 0
 fi
 
-git tag -s "$tag" "$release_sha" -m "rubocop-yaml $tag"
+git tag -a "$tag" "$release_sha" -m "rubocop-yaml $tag"
 
 tag_sha="$(git rev-parse "$tag^{commit}")"
 [[ "$tag_sha" == "$release_sha" ]] || {
@@ -90,7 +90,12 @@ tag_sha="$(git rev-parse "$tag^{commit}")"
   exit 1
 }
 
-git verify-tag "$tag"
+tag_type="$(git cat-file -t "refs/tags/$tag")"
+[[ "$tag_type" == "tag" ]] || {
+  printf 'Release aborted: %s is not an annotated tag.\n' "$tag" >&2
+  exit 1
+}
+
 git push origin "refs/tags/$tag:refs/tags/$tag"
 
 printf 'Released %s from %s; GitHub Actions will publish the verified gem.\n' "$tag" "$release_sha"
