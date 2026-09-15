@@ -1,0 +1,40 @@
+module RuboCop
+  module Yaml
+    module Rails
+      module I18n
+        class LocaleIndex
+          DEFAULT_PATTERNS: Array[String]
+
+          class Entry < Struct[String | Integer | Symbol | Parser::Node | nil]
+            def locale: () -> String
+            def path: () -> String
+            def file: () -> String
+            def line: () -> Integer
+            def column: () -> Integer
+            def type: () -> Symbol
+            def value: () -> String?
+            def node: () -> Parser::Node
+            def document: () -> Integer
+          end
+
+          attr_reader diagnostics: Array[Parser::Diagnostic]
+          attr_reader files: Array[String]
+
+          def self.build: (?root: String, ?patterns: Array[String], ?parser: Parser) -> LocaleIndex
+
+          def initialize: (entries: Hash[String, Hash[String, Array[Entry]]], diagnostics: Array[Parser::Diagnostic], files: Array[String]) -> void
+          def locales: () -> Array[String]
+          def translations_for: (String | Symbol locale) -> Hash[String, Array[Entry]]
+          def entries_for: (String | Symbol locale, String | Symbol path) -> Array[Entry]
+          def each_entry: () { (Entry) -> void } -> void
+                        | () -> Enumerator[Entry, void]
+        end
+
+        class LocaleIndexBuilder
+          def initialize: (root: String, patterns: Array[String], parser: Parser) -> void
+          def build: () -> LocaleIndex
+        end
+      end
+    end
+  end
+end

@@ -1,0 +1,10 @@
+en:
+  admin:
+    title: Administration
+---
+de:
+  greeting: Hallo
+---
+en:
+  users:
+    welcome: "Welcome again"
