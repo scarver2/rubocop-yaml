@@ -11,6 +11,7 @@ require_relative "yaml/plugin"
 require_relative "yaml/rails/i18n/interpolation"
 require_relative "yaml/rails/i18n/locale_index"
 require_relative "yaml/rails/i18n/locale_index_builder"
+require_relative "yaml/rails/i18n/pluralization"
 require_relative "yaml/schema/registry"
 require_relative "yaml/schema/validator"
 

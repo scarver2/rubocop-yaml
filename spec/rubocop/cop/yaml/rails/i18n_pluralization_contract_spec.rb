@@ -57,4 +57,11 @@ RSpec.describe RuboCop::Cop::YAML::Rails::I18nPluralizationContract do
 
     expect(findings).to be_empty
   end
+
+  it "derives default English categories from an isolated ruby-i18n backend" do
+    global_state = [I18n.backend, I18n.locale, I18n.load_path.dup]
+
+    expect(RuboCop::Yaml::Rails::I18n::Pluralization.default_categories).to eq(%w[one other])
+    expect([I18n.backend, I18n.locale, I18n.load_path]).to eq(global_state)
+  end
 end

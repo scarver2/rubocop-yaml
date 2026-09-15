@@ -1,0 +1,13 @@
+module RuboCop
+  module Yaml
+    module Rails
+      module I18n
+        module Pluralization
+          CATEGORY_KEYS: Array[String]
+
+          def self.default_categories: () -> Array[String]
+        end
+      end
+    end
+  end
+end

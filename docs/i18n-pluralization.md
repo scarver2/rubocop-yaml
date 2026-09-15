@@ -20,11 +20,11 @@ Sources reviewed September 15, 2026:
 
 `YAML/Rails/I18nPluralizationContract` recognizes a mapping as pluralization-shaped only when all of its immediate keys belong to the CLDR category vocabulary or the explicit numeric keys `0` and `1`. Scalar translations are never treated as pluralization maps.
 
-The default policy validates only English and requires `one` and `other`. Other locales are skipped unless configured under `RequiredCategories`; this avoids embedding incomplete CLDR data or assuming that Rails applications use a particular locale backend. Applications with custom rules can replace the English policy, define exact requirements for any locale, or leave that locale unconfigured.
+The default policy validates only English. It derives the required `one` and `other` branches by translating representative counts through a fresh, isolated `I18n::Backend::Simple` instance. It does not replace or configure the host process's backend. Other locales are skipped unless configured under `RequiredCategories`; this avoids embedding incomplete CLDR data or assuming that Rails applications use a particular locale backend. Applications with custom rules can replace the English policy, define exact requirements for any locale, or leave that locale unconfigured.
 
 `CountRequiredCategories` optionally requires `%{count}` in selected category values. It is empty by default because Rails uses `count` to select a branch but does not universally require every rendered branch to display it. `IgnoredPaths` excludes application-specific plural-shaped mappings.
 
-The cop performs no Rails boot, backend discovery, network lookup, ERB execution, translation generation, or autocorrection.
+The cop uses ruby-i18n's documented plural category vocabulary when recognizing candidate maps and its default backend for default English behavior. It does not implement a plural-rule engine or attempt to infer an application's custom backend. It performs no Rails boot, global backend mutation, network lookup, ERB execution, translation generation, or autocorrection.
 
 —
 Stan Carver II

@@ -10,7 +10,6 @@ module RuboCop
         class I18nPluralizationContract < I18nBase
           Finding = Struct.new(:entry, :locale, :path, :message, keyword_init: true)
           Analysis = Struct.new(:index, :locale, :path, :sources, :categories, keyword_init: true)
-          PLURAL_KEYS = %w[0 1 few many one other two zero].freeze
           MISSING = "Locale `%<locale>s` pluralization `%<path>s` is missing categories: %<categories>s."
           COUNT = "Locale `%<locale>s` pluralization `%<path>s.%<category>s` must interpolate `%%{count}`."
 
@@ -36,7 +35,7 @@ module RuboCop
           def configured_findings
             findings(
               locale_index,
-              required_categories: cop_config.fetch("RequiredCategories", { "en" => %w[one other] }),
+              required_categories: cop_config.fetch("RequiredCategories", default_requirements),
               count_required_categories: cop_config.fetch("CountRequiredCategories", {}),
               ignored_paths: ignored_paths
             )
@@ -65,7 +64,12 @@ module RuboCop
           end
 
           def plural_map?(categories)
-            !categories.empty? && (categories - PLURAL_KEYS).empty?
+            allowed = RuboCop::Yaml::Rails::I18n::Pluralization::CATEGORY_KEYS
+            !categories.empty? && (categories - allowed).empty?
+          end
+
+          def default_requirements
+            { "en" => RuboCop::Yaml::Rails::I18n::Pluralization.default_categories }
           end
 
           def map_findings(analysis, required, count_requirements)
