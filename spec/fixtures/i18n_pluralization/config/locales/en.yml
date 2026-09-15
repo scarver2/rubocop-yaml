@@ -1,0 +1,10 @@
+en:
+  inbox:
+    one: One message
+    other: "%{count} messages"
+  alerts:
+    one: One alert
+  scalar: Not a plural map
+  settings:
+    one: First setting
+    label: Settings

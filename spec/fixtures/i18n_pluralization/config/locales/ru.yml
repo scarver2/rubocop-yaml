@@ -1,0 +1,5 @@
+ru:
+  inbox:
+    one: "%{count} сообщение"
+    few: "%{count} сообщения"
+    many: "%{count} сообщений"
