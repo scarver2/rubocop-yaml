@@ -1,0 +1,9 @@
+es:
+  welcome: "Bienvenido, %{username}; tienes %{count} mensajes"
+  ordered: "%{second} %{first}"
+  repeated: "Hola %{name}"
+  escaped: "Progreso: %%{ignored}"
+  multiline: |
+    Hola %{name}
+    Tienes artículos.
+  numeric: 43
