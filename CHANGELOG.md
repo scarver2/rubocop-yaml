@@ -3,6 +3,8 @@
 
 ## Unreleased
 
+- [#40](https://github.com/scarver2/rubocop-yaml/pull/40): Skip non-YAML files when running YAML cops - [@dblock](https://github.com/dblock).
+
 ## 0.2.0 - 2026-09-15
 
 - Add a reusable, source-located project index for Rails I18n locale files.

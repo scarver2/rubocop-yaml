@@ -2,11 +2,16 @@
 # frozen_string_literal: true
 
 require "rubocop"
+require_relative "../../yaml/processed_source"
 
 module RuboCop
   module Cop
     module YAML
       class Base < RuboCop::Cop::Base
+        def relevant_file?(file)
+          file.to_s.match?(RuboCop::Yaml::ProcessedSource::YAML_EXTENSION) && super
+        end
+
         private
 
         def yaml_result
